@@ -24,6 +24,7 @@ Ink jest narzêdziem CLI do sprawdzania poziomu atramentu w drukarce.
 
 %build
 %{__make} \
+	CC="%{__cc}" \
 	OPTFLAGS="%{rpmcflags}"
 
 %install
