@@ -8,7 +8,7 @@ Group:		Applications
 Source0:	http://home.arcor.de/markusheinz/%{name}-%{version}.tar.gz
 # Source0-md5:	1fca7b488c7e37e6809820bd5aed5053
 Patch0:		%{name}-build_fixes.patch
-URL:		http://home.arcor.de/markusheinz/ink.html
+URL:		http://ink.sourceforge.net/
 BuildRequires:	libinklevel-devel >= 0.6
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
