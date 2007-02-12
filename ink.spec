@@ -1,5 +1,5 @@
 Summary:	Tool for checking ink level of a printer
-Summary(pl):	Narzêdzie sprawdzaj±ce poziom atramentu w drukarce
+Summary(pl.UTF-8):   NarzÄ™dzie sprawdzajÄ…ce poziom atramentu w drukarce
 Name:		ink
 Version:	0.3
 Release:	1
@@ -15,8 +15,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 Ink is a CLI tool for checking the ink level of a printer.
 
-%description -l pl
-Ink jest narzêdziem CLI do sprawdzania poziomu atramentu w drukarce.
+%description -l pl.UTF-8
+Ink jest narzÄ™dziem CLI do sprawdzania poziomu atramentu w drukarce.
 
 %prep
 %setup -qn %{name}
