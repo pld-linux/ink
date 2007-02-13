@@ -1,5 +1,5 @@
 Summary:	Tool for checking ink level of a printer
-Summary(pl.UTF-8):   Narzędzie sprawdzające poziom atramentu w drukarce
+Summary(pl.UTF-8):	Narzędzie sprawdzające poziom atramentu w drukarce
 Name:		ink
 Version:	0.3
 Release:	1
