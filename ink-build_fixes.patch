@@ -1,11 +1,11 @@
-diff -aurN ink.orig/Makefile ink/Makefile
---- ink.orig/Makefile	2003-12-03 17:41:37.000000000 +0100
-+++ ink/Makefile	2003-12-04 17:32:08.000000000 +0100
-@@ -1,11 +1,11 @@
--CFLAGS = -Wall -O -linklevel
+--- ink-0.4.0/Makefile.orig	2007-03-13 22:44:24.000000000 +0100
++++ ink-0.4.0/Makefile	2007-04-03 23:48:16.112252342 +0200
+@@ -1,11 +1,12 @@
+-CFLAGS = -Wall -O2 -linklevel
 -DESTDIR = /usr/local/
++OPTFLAGS = -O2
 +CFLAGS = $(OPTFLAGS) -Wall -linklevel
-+#DESTDIR = /usr/local
++DESTDIR =
  
  all: ink 
  
@@ -13,7 +13,7 @@ diff -aurN ink.orig/Makefile ink/Makefile
 -	mkdir -p $(DESTDIR)/bin
 -	install -m 755 -o root -g root ink $(DESTDIR)/bin/ink
 +	mkdir -p $(DESTDIR)/usr/bin
-+	install -c ink $(DESTDIR)/usr/bin/ink
++	install -m 755 ink $(DESTDIR)/usr/bin/ink
  
  clean:
- 	rm ink *~
+ 	rm -fr ink *.o *~
