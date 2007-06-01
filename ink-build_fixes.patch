@@ -1,10 +1,11 @@
---- ink-0.4.0/Makefile.orig	2007-03-13 22:44:24.000000000 +0100
-+++ ink-0.4.0/Makefile	2007-04-03 23:48:16.112252342 +0200
-@@ -1,11 +1,12 @@
--CFLAGS = -Wall -O2 -linklevel
+--- ink-0.4.1/Makefile.orig	2006-09-06 16:06:22.000000000 +0200
++++ ink-0.4.1/Makefile	2007-06-01 22:13:52.387901596 +0200
+@@ -1,12 +1,12 @@
+-CFLAGS = -Wall -O2 -L$(PWD)/../../../libinklevel/cvs/libinklevel \
+-         -I$(PWD)/../../../libinklevel/cvs/libinklevel -linklevel
 -DESTDIR = /usr/local/
 +OPTFLAGS = -O2
-+CFLAGS = $(OPTFLAGS) -Wall -linklevel
++CFLAGS = -Wall $(OPTFLAGS) -linklevel
 +DESTDIR =
  
  all: ink 
