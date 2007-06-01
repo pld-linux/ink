@@ -1,12 +1,12 @@
 Summary:	Tool for checking ink level of a printer
 Summary(pl.UTF-8):	Narzędzie sprawdzające poziom atramentu w drukarce
 Name:		ink
-Version:	0.4.0
+Version:	0.4.1
 Release:	1
 License:	GPL
 Group:		Applications
 Source0:	http://dl.sourceforge.net/ink/%{name}-%{version}.tar.gz
-# Source0-md5:	ac795dbdb00982aa3627773da2250d55
+# Source0-md5:	7234ef5ab8982417c6443767dd0f46cd
 Patch0:		%{name}-build_fixes.patch
 URL:		http://ink.sourceforge.net/
 BuildRequires:	libinklevel-devel >= 0.7.0
