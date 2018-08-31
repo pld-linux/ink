@@ -1,0 +1,109 @@
+diff -Nur ink-0.5.3.orig/ink.1.in ink-0.5.3/ink.1.in
+--- ink-0.5.3.orig/ink.1.in	2018-07-11 21:48:26.000000000 +0200
++++ ink-0.5.3/ink.1.in	2018-08-31 22:28:55.221785474 +0200
+@@ -5,7 +5,7 @@
+ .SH SYNOPSIS
+ .B
+ ink 
+-\-p usb [\-n <portnumber>] [\-t <threshold>]
++\-p usb|parport [\-n <portnumber>] [\-t <threshold>]
+ .PP
+ .B
+ ink
+@@ -17,16 +17,16 @@
+ .SH DESCRIPTION
+ ink is a command line tool for checking the ink level of your printers. 
+ .PP
+-Printers connected via USB port are supported. Canon BJNP network printers are supported too.
++Printers connected via parallel port and USB port are supported. Canon BJNP network printers are supported too.
+ .PP
+ ink makes use of libinklevel.
+ .SH OPTIONS 
+ .TP
+-.B -p usb
+-Probe USB port.
++.B -p usb|parport
++Probe USB or parallel port.
+ .TP
+ .B -n <portnumber>
+-Number of the USB printer (starting from zero)
++Number of the USB printer (starting from zero) or port to probe (/dev/parportX).
+ .TP
+ .B -t <threshold> 
+ Only display ink levels less than or equal to threshold.
+@@ -38,6 +38,13 @@
+ Probe the Canon BJNP printer at the specified location.
+ .SH FILES
+ .TP
++.B /dev/parportX and /dev/lpX
++Devices used to read ink level on linux systems with parallel port printers.
++Ink NEEDS read and write access to these devices.
++.TP
++.B /dev/lptX
++Devices used to read ink level on FreeBSD systems with parallel port printers.
++Ink NEEDS read and write access to these devices.
+ .SH AUTHOR
+ This manual page was originally written by Adam Cecile <gandalf@le-vert.net> for the Debian system (but may be used by others). It has been updated by Markus Heinz <markus.heinz@uni-dortmund.de> to reflect new features of recent ink versions.
+ Permission is granted to copy, distribute and/or modify this document under the terms of the GNU General Public License, Version 2 or any later version published by the Free Software Foundation.
+diff -Nur ink-0.5.3.orig/ink.c ink-0.5.3/ink.c
+--- ink-0.5.3.orig/ink.c	2018-07-11 21:50:14.000000000 +0200
++++ ink-0.5.3/ink.c	2018-08-31 22:32:37.548449748 +0200
+@@ -18,9 +18,11 @@
+ void print_version_information(void);
+ 
+ void usage(void) {
+-  printf("ink -p \"usb\" [-n <portnumber>] [-t <threshold>]\n");
++  printf("ink -p \"usb\"|\"parport\" [-n <portnumber>] [-t <threshold>]\n");
+   printf("ink -p \"bjnp\" | -b \"bjnp://<printer.my.domain>\" | -v\n\n");
+ 
++  printf("'ink -p parport' Query first parallel port printer\n");
++  printf("'ink -p parport -n 1' Query second parallel port printer\n");
+   printf("'ink -p usb' Query first usb port printer\n");
+   printf("'ink -p usb -n 1' Query second usb port printer\n");
+   printf("'ink -p bjnp' Query first bjnp network printer\n");
+@@ -98,6 +100,9 @@
+     switch (c) {
+ 
+     case 'p':
++      if (strcmp(optarg, "parport") == 0) {
++	port = PARPORT;
++      } else
+       if (strcmp(optarg, "usb") == 0) {
+         port = USB;
+       } else if (strcmp(optarg, "bjnp") == 0) {
+@@ -164,10 +169,35 @@
+       printf("An unknown error occured.\n");
+       break;
+ 
++    case DEV_PARPORT_INACCESSIBLE:
++      printf("Could not access '/dev/parport%d'.\n", portnumber);
++      break;
++
++    case DEV_LP_INACCESSIBLE:
++
++#if (HOST_OS == LINUX)
++
++      printf("Could not access '/dev/lp%d'.\n", portnumber);
++
++#elif (HOST_OS == FREEBSD)
++
++      printf("Could not access '/dev/lpt%d'.\n", portnumber);
++
++#endif
++
++      break;
++
+     case COULD_NOT_GET_DEVICE_ID:
+       printf("Could not get device id.\n");
+       break;
+ 
++    case DEV_USB_LP_INACCESSIBLE:
++
++      printf("Could not access '/dev/usb/lp%d' or '/dev/usblp%d'.\n", 
++             portnumber, portnumber);
++
++      break;
++
+     case UNKNOWN_PORT_SPECIFIED:
+       printf("Unknown port specified.\n");
+       break;
